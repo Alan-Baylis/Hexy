@@ -11,24 +11,21 @@ public class MainTestHandler : MonoBehaviour {
 
     private List<GameObject> createdObjects = new List<GameObject>();
     
-	void Update () {
-	    if(createdObjects.Count != 0)
-        {
-            foreach(GameObject toDestroy in createdObjects){
-                Destroy(toDestroy);
-            }
-        }
+    void Start()
+    {
         for (int y = 0; y < count.y; y++)
         {
             for (int x = 0; x < count.x; x++)
             {
                 float newY;
                 if (IsOdd(x))
-                    newY = y * offset.y + offset.y/2f;
+                    newY = y * offset.y + offset.y / 2f;
                 else
                     newY = y * offset.y;
                 Vector2 newPos = new Vector2(x * offset.x, newY);
                 GameObject created = (GameObject)Instantiate(hexagonPrefab, newPos, Quaternion.identity);
+                SpriteRenderer sr = created.GetComponent<SpriteRenderer>();
+                sr.color = Random.ColorHSV();
                 created.transform.SetParent(hexaGridParent.transform, true);
                 createdObjects.Add(created);
             }

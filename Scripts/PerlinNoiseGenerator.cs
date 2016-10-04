@@ -3,13 +3,15 @@ using System.Collections;
 
 public class PerlinNoiseGenerator : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    public int resolution;
+    public GameObject plane;
+
+    private Texture2D texture;
+	void OnEnable()
+    {
+        texture = new Texture2D(resolution, resolution, TextureFormat.RGB24, true);
+        texture.name = "Perlin Noise L1";
+        plane.GetComponent<MeshRenderer>().material.mainTexture = texture;
+    }
 }
