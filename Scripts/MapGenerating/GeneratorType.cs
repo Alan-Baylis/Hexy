@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapGeneratorInstance {
-    
+public class GeneratorType {
     private int _resolution, _octaves;
     private float _frequency, _lacunarity, _persistence, _scaling, _seed, _multiplicator, _addition;
     private Gradient _coloring;
 
-    public int resolution {
+    public int resolution
+    {
         get
         {
             return _resolution;
@@ -77,7 +77,7 @@ public class MapGeneratorInstance {
         }
     }
 
-    public MapGeneratorInstance(int resolution, int octaves, float frequency, float lacunarity, float persistence, float scaling, float seed, Gradient coloring, float multiplicator, float addition)
+    public GeneratorType(int resolution, int octaves, float frequency, float lacunarity, float persistence, float scaling, float seed, Gradient coloring, float multiplicator, float addition)
     {
         _resolution = resolution;
         _octaves = octaves;
@@ -90,5 +90,4 @@ public class MapGeneratorInstance {
         _multiplicator = multiplicator;
         _addition = addition;
     }
-
 }

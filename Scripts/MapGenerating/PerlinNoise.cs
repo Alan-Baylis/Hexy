@@ -1,66 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PerlinNoiseGenerator {
-    
-    /*[Range(2,512)]
-    public int resolution = 256;
-
-    public float frequency = 1f;
-    [Range(1, 8)]
-    public int octaves = 1;
-    [Range(1f, 4f)]
-    public float lacunarity = 2f;
-    [Range(0f, 1f)]
-    public float persistence = 0.5f;
-    [Range(0.005f, 0.95f)]
-    public float scaling = 0.1f;
-    [Range(0f,1000f)]
-    public float seed;
-
-    public Gradient coloring;
-
-    public GameObject plane;
-    
-	void Start()
-    {
-        StartCoroutine(TextureLoop());
-        foreach (GradientColorKey key in coloring.colorKeys)
-            Debug.Log("new GradientColorKey(new Color(" + key.color.r + "f," + key.color.g + "f," + key.color.b + "f,1f)," + key.time + "f)");
-    }
-    IEnumerator TextureLoop()
-    {
-        while (true)
-        {
-            plane.GetComponent<MeshRenderer>().material.mainTexture = FillTexture();
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-    Texture2D FillTexture()
-    {
-        Texture2D texture;
-        texture = new Texture2D(resolution, resolution, TextureFormat.RGB24, true);
-        texture.name = "Perlin Noise L1";
-        texture.wrapMode = TextureWrapMode.Clamp;
-        if (texture.width != resolution)
-            texture.Resize(resolution, resolution);
-
-        for(int x = 0; x < resolution; x++)
-        {
-            for(int y = 0; y < resolution; y++)
-            {
-                float newSeed = seed * 1000;
-                Vector2 vector = new Vector2((x+newSeed) * scaling, (y+newSeed) * scaling);
-                float noise = Sum(vector, frequency, octaves, lacunarity, persistence) * 0.5f + 0.5f;
-                Color color = coloring.Evaluate(noise);
-                texture.SetPixel(x,y,color);
-            }
-        }
-        texture.Apply();
-
-        return texture;
-    }*/
-    #region constants
+public static class PerlinNoise {
     private static int[] hash = {
         151,160,137, 91, 90, 15,131, 13,201, 95, 96, 53,194,233,  7,225,
         140, 36,103, 30, 69,142,  8, 99, 37,240, 21, 10, 23,190,  6,148,
@@ -106,13 +47,12 @@ public class PerlinNoiseGenerator {
         new Vector2( 1f,-1f).normalized,
         new Vector2(-1f,-1f).normalized
     };
-    #endregion
     public static float Sum(Vector2 point, float frequency, int octaves, float lacunarity, float persistence, float multiplicator, float addition)
     {
         float sum = Perlin(point, frequency);
         float amplitude = 1f;
         float range = 1f;
-        for(int i = 1; i < octaves; i++)
+        for (int i = 1; i < octaves; i++)
         {
             frequency *= lacunarity;
             amplitude *= persistence;
