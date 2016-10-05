@@ -9,10 +9,12 @@ public class MainTestHandler : MonoBehaviour {
     public GameObject hexagonPrefab;
     public GameObject hexaGridParent;
 
-    private List<GameObject> createdObjects = new List<GameObject>();
+    //private List<GameObject> createdObjects = new List<GameObject>();
+    public GameObject[,] map;
     
     void Start()
     {
+        GameObject[,] _map = new GameObject[(int)count.x, (int)count.y];
         for (int y = 0; y < count.y; y++)
         {
             for (int x = 0; x < count.x; x++)
@@ -24,15 +26,20 @@ public class MainTestHandler : MonoBehaviour {
                     newY = y * offset.y;
                 Vector2 newPos = new Vector2(x * offset.x, newY);
                 GameObject created = (GameObject)Instantiate(hexagonPrefab, newPos, Quaternion.identity);
-                SpriteRenderer sr = created.GetComponent<SpriteRenderer>();
-                sr.color = Random.ColorHSV();
+                /*SpriteRenderer sr = created.GetComponent<SpriteRenderer>();
+                sr.color = Random.ColorHSV();*/
                 created.transform.SetParent(hexaGridParent.transform, true);
-                createdObjects.Add(created);
+                //createdObjects.Add(created);
+                _map[x, y] = created;
             }
         }
         float xPos = (count.x * offset.x) / 2f;
         float yPos = (count.y * offset.y) / 2f;
         Camera.main.transform.position = new Vector3(xPos, yPos, -10);
+
+        Debug.Log("Generating terrain");
+        PerlinNoiseParser.GenerateTest(MapTypes.TemplateLakes, _map);
+        Debug.Log(" ..took " + Time.deltaTime*100 + "ms");
     }
     bool IsOdd(int value)
     {

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PerlinNoiseGenerator : MonoBehaviour {
+public class PerlinNoiseGenerator {
     
-    [Range(2,512)]
+    /*[Range(2,512)]
     public int resolution = 256;
 
     public float frequency = 1f;
@@ -25,6 +25,8 @@ public class PerlinNoiseGenerator : MonoBehaviour {
 	void Start()
     {
         StartCoroutine(TextureLoop());
+        foreach (GradientColorKey key in coloring.colorKeys)
+            Debug.Log("new GradientColorKey(new Color(" + key.color.r + "f," + key.color.g + "f," + key.color.b + "f,1f)," + key.time + "f)");
     }
     IEnumerator TextureLoop()
     {
@@ -57,7 +59,7 @@ public class PerlinNoiseGenerator : MonoBehaviour {
         texture.Apply();
 
         return texture;
-    }
+    }*/
     #region constants
     private static int[] hash = {
         151,160,137, 91, 90, 15,131, 13,201, 95, 96, 53,194,233,  7,225,
@@ -105,7 +107,7 @@ public class PerlinNoiseGenerator : MonoBehaviour {
         new Vector2(-1f,-1f).normalized
     };
     #endregion
-    private float Sum(Vector2 point, float frequency, int octaves, float lacunarity, float persistence)
+    public static float Sum(Vector2 point, float frequency, int octaves, float lacunarity, float persistence)
     {
         float sum = Perlin(point, frequency);
         float amplitude = 1f;
@@ -119,15 +121,15 @@ public class PerlinNoiseGenerator : MonoBehaviour {
         }
         return sum / range;
     }
-    private float Dot(Vector2 g, float x, float y)
+    private static float Dot(Vector2 g, float x, float y)
     {
         return g.x * x + g.y * y;
     }
-    private float Smooth(float t)
+    private static float Smooth(float t)
     {
         return t * t * t * (t * (t * 6f - 15f) + 10f);
     }
-    private float Perlin(Vector2 point, float frequency)
+    private static float Perlin(Vector2 point, float frequency)
     {
         point *= frequency;
         int ix0 = Mathf.FloorToInt(point.x);

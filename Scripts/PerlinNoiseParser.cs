@@ -1,15 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PerlinNoiseParser : MonoBehaviour {
+public class PerlinNoiseParser {
+    
+    public static void GenerateTest(MapGeneratorInstance type, GameObject[,] mapGrid)
+    {
+        if (mapGrid == null)
+            throw new System.Exception("Map Grid is not initialized");
+        float[,] pointsG = new float[type.resolution, type.resolution];
+        for(int x = 0; x < type.resolution; x++)
+        {
+            for(int y = 0; y < type.resolution; y++)
+            {
+                
+                float newSeed = type.seed * 1000;
+                Vector2 vector = new Vector2((x + newSeed) * type.scaling, (y + newSeed) * type.scaling);
+                float noise = PerlinNoiseGenerator.Sum(vector, type.frequency, type.octaves, type.lacunarity, type.persistence);
+                pointsG[x, y] = noise;
+            }
+        }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        for(int a = 0; a < mapGrid.GetLength(0); a++)
+        {
+            for(int b = 0; b < mapGrid.GetLength(1); b++)
+            {
+                Color color = type.coloring.Evaluate(pointsG[a, b]);
+                Debug.Log("Map dimensions: " + mapGrid.GetLength(0) + "x" + mapGrid.GetLength(1));
+                Debug.Log("Trying to access field " + a + "x" + b);
+                GameObject modified = mapGrid[a, b];
+                modified.GetComponent<SpriteRenderer>().color = color;
+            }
+        }
+    }
 }
