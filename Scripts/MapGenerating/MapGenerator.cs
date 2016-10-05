@@ -5,26 +5,20 @@ public static class MapGenerator{
     public static GameObject[,] CreateBlankGrid(Vector2 size, int layer)
     {
         Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
-        Debug.Log("#0");
         int width = (int)size.x;
         int height = (int)size.y;
         GameObject[,] created = new GameObject[width, height];
-        Debug.Log("#1");
         for (int x = 0; x < width; x++)
         {
-            Debug.Log("#2");
             for (int y = 0; y < height; y++)
             {
-                Debug.Log("#3");
                 float newY;
                 if (x % 2 != 0)
                     newY = y * 1.36f + 1.36f / 2f;
                 else
                     newY = y * 1.36f;
                 Vector2 pos = new Vector2(x * 1.18f, newY);
-                Debug.Log("#4");
-                GameObject instantiated = (GameObject)GameObject.Instantiate(referent.PFHexagonTileBlank, pos, Quaternion.identity);
-                Debug.Log("#5");
+                GameObject instantiated = (GameObject)Object.Instantiate(referent.PFHexagonTileBlank, pos, Quaternion.identity);
                 instantiated.transform.SetParent(referent.GOMapParent.transform, true);
                 created[x, y] = instantiated;
             }
