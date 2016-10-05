@@ -107,7 +107,7 @@ public class PerlinNoiseGenerator {
         new Vector2(-1f,-1f).normalized
     };
     #endregion
-    public static float Sum(Vector2 point, float frequency, int octaves, float lacunarity, float persistence)
+    public static float Sum(Vector2 point, float frequency, int octaves, float lacunarity, float persistence, float multiplicator, float addition)
     {
         float sum = Perlin(point, frequency);
         float amplitude = 1f;
@@ -119,7 +119,11 @@ public class PerlinNoiseGenerator {
             range += amplitude;
             sum += Perlin(point, frequency) * frequency;
         }
-        return sum / range;
+        float befResult = sum / range;
+        if (befResult * multiplicator > 1f)
+            return 1f;
+        else
+            return (befResult * multiplicator) + addition;
     }
     private static float Dot(Vector2 g, float x, float y)
     {

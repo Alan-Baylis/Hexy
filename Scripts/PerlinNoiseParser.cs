@@ -15,7 +15,7 @@ public class PerlinNoiseParser {
                 
                 float newSeed = type.seed * 1000;
                 Vector2 vector = new Vector2((x + newSeed) * type.scaling, (y + newSeed) * type.scaling);
-                float noise = PerlinNoiseGenerator.Sum(vector, type.frequency, type.octaves, type.lacunarity, type.persistence);
+                float noise = PerlinNoiseGenerator.Sum(vector, type.frequency, type.octaves, type.lacunarity, type.persistence, type.multiplicator, type.addition);
                 pointsG[x, y] = noise;
             }
         }
@@ -31,5 +31,22 @@ public class PerlinNoiseParser {
                 modified.GetComponent<SpriteRenderer>().color = color;
             }
         }
+    }
+    public static Texture2D GenerateTest(MapGeneratorInstance type, Texture2D texture)
+    {
+        if (texture == null)
+            throw new System.Exception("Texture2D is not initialized");
+        for (int x = 0; x < type.resolution; x++)
+        {
+            for (int y = 0; y < type.resolution; y++)
+            {
+
+                float newSeed = type.seed * 1000;
+                Vector2 vector = new Vector2((x + newSeed) * type.scaling, (y + newSeed) * type.scaling);
+                float noise = PerlinNoiseGenerator.Sum(vector, type.frequency, type.octaves, type.lacunarity, type.persistence, type.multiplicator, type.addition);
+                texture.SetPixel(x, y, type.coloring.Evaluate(noise));
+            }
+        }
+        return texture;
     }
 }

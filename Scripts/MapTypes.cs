@@ -18,13 +18,16 @@ public static class MapTypes {
                 new GradientColorKey(new Color(0f,0f,1f,1f),0.4010986f),
                 new GradientColorKey(new Color(1f,1f,0f,1f),0.4093385f),
                 new GradientColorKey(new Color(0f,1f,0f,1f),0.4303960f),
-                new GradientColorKey(new Color(0f,1f,0f,1f),0.6346227f),
-                new GradientColorKey(new Color(0f,0.408f,0f,1f),0.7976196f)
+                //new GradientColorKey(new Color(0f,1f,0f,1f),0.6346227f),
+                //new GradientColorKey(new Color(0f,0.408f,0f,1f),0.7976196f)
+                new GradientColorKey(new Color(0f,1f,0f,1f),0.9f),
+                new GradientColorKey(new Color(0f,0.408f,0f,1f),0.95f)
             };
             Gradient coloring = new Gradient();
             coloring.alphaKeys = Template_ak;
             coloring.colorKeys = colorKeys;
-            return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.018f, 204f, coloring);
+            //return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.018f, 204f, coloring);
+            return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.2f, 204f, coloring, 1.06f, 0.466f);
         }
     }
     public static MapGeneratorInstance TemplateSmoothNoLakes
@@ -39,7 +42,7 @@ public static class MapTypes {
             Gradient coloring = new Gradient();
             coloring.alphaKeys = Template_ak;
             coloring.colorKeys = colorKeys;
-            return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.018f, 204f, coloring);
+            return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.018f, 204f, coloring, 1f, 0f);
         }
     }
     public static MapGeneratorInstance TemplateMountains
@@ -54,7 +57,7 @@ public static class MapTypes {
             Gradient coloring = new Gradient();
             coloring.alphaKeys = Template_ak;
             coloring.colorKeys = colorKeys;
-            return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.018f, 204f, coloring);
+            return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.018f, 204f, coloring, 1f, 0f);
         }
     }
     public static MapGeneratorInstance TemplateFlat
@@ -69,7 +72,7 @@ public static class MapTypes {
             Gradient coloring = new Gradient();
             coloring.alphaKeys = Template_ak;
             coloring.colorKeys = colorKeys;
-            return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.018f, 204f, coloring);
+            return new MapGeneratorInstance(256, 1, 0.7f, 1.83f, 0.32f, 0.018f, 204f, coloring, 1f, 0f);
         }
     }
 }
