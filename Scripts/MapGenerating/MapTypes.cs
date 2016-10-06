@@ -23,7 +23,7 @@ public static class MapTypes {
             Gradient coloring = new Gradient();
             coloring.alphaKeys = alpha_keys;
             coloring.colorKeys = colorKeys;
-            return new GeneratorType(256, 1, 0.7f, 1.83f, 0.32f, 0.2f, 204f, coloring, 1.06f, 0.466f);
+            return new GeneratorType(256, 1, 0.7f, 1.83f, 0.32f, 0.2f, coloring, 1.06f, 0.466f);
         }
     }
 }

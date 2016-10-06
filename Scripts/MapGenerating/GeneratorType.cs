@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GeneratorType {
     private int _resolution, _octaves;
-    private float _frequency, _lacunarity, _persistence, _scaling, _seed, _multiplicator, _addition;
+    private float _frequency, _lacunarity, _persistence, _scaling, _multiplicator, _addition;
     private Gradient _coloring;
 
     public int resolution
@@ -48,13 +48,6 @@ public class GeneratorType {
             return _scaling;
         }
     }
-    public float seed
-    {
-        get
-        {
-            return _seed;
-        }
-    }
     public Gradient coloring
     {
         get
@@ -77,7 +70,7 @@ public class GeneratorType {
         }
     }
 
-    public GeneratorType(int resolution, int octaves, float frequency, float lacunarity, float persistence, float scaling, float seed, Gradient coloring, float multiplicator, float addition)
+    public GeneratorType(int resolution, int octaves, float frequency, float lacunarity, float persistence, float scaling, Gradient coloring, float multiplicator, float addition)
     {
         _resolution = resolution;
         _octaves = octaves;
@@ -85,7 +78,6 @@ public class GeneratorType {
         _lacunarity = lacunarity;
         _persistence = persistence;
         _scaling = scaling;
-        _seed = seed;
         _coloring = coloring;
         _multiplicator = multiplicator;
         _addition = addition;
