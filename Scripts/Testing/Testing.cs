@@ -8,6 +8,6 @@ public class Testing : MonoBehaviour {
     }
     public void GenerateWorld()
     {
-        MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(40, 15), 0), MapTypes.NormalLake);
+        MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake);
     }
 }
