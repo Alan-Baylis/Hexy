@@ -2,14 +2,13 @@
 using System.Collections;
 
 public class BaseUnit : MonoBehaviour {
-
-	// Use this for initialization
+    
 	void Start () {
-	
+	    Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
+        referent.KeyDown += (s,c) => { GotKey((KeyCode)s); };
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void GotKey(KeyCode code)
+    {
+        Debug.Log("We got key!!!");
+    }
 }

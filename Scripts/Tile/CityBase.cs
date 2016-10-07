@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Village : CityBase {
+public class CityBase : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

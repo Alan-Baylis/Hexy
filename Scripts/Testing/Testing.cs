@@ -7,6 +7,7 @@ public class Testing : MonoBehaviour {
     void Start()
     {
         GenerateWorld();
+        GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>().KeyDown += (s, c) => { if(c.keycode != KeyCode.None) CallMe(c.keycode.ToString()); };
     }
     public void GenerateWorld()
     {
@@ -15,5 +16,9 @@ public class Testing : MonoBehaviour {
     public void Reload()
     {
         SceneManager.LoadScene(0);
+    }
+    void CallMe(string message)
+    {
+        Debug.Log(message);
     }
 }

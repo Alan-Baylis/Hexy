@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Aerial : MonoBehaviour {
+public class Aerial : BaseUnit {
 
 	// Use this for initialization
 	void Start () {
