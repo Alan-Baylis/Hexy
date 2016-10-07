@@ -48,8 +48,12 @@ public static class MapGenerator{
     }
     public static GameObject SetBaseTileType(GameObject tile, float value, GeneratorType type, Referent referent)
     {
-        Color color = type.coloring.Evaluate(value);
-        tile.GetComponent<SpriteRenderer>().sprite = GetSpriteForValue(value, referent);
+        tile.GetComponent<TileMain>().TERRAIN_BOTTOM.sprite = GetSpriteForValue(value, referent);
+        return tile;
+    }
+    public static GameObject SetBaseTileType(GameObject tile, ReferentStatic.TileTypes_Base type, Referent referent)
+    {
+        tile.GetComponent<SpriteRenderer>().sprite = GetSpriteForType(type, referent);
         return tile;
     }
     private static Sprite GetSpriteForValue(float value, Referent referent)
@@ -63,5 +67,23 @@ public static class MapGenerator{
         if (value < 0.58f)
             return referent.TexturesBase[3];
         return referent.TexturesBase[4];
+    }
+    private static Sprite GetSpriteForType(ReferentStatic.TileTypes_Base type, Referent referent)
+    {
+        switch (type)
+        {
+            case ReferentStatic.TileTypes_Base.DeepOcean:
+                return referent.TexturesBase[0];
+            case ReferentStatic.TileTypes_Base.ShallowOcean:
+                return referent.TexturesBase[1];
+            case ReferentStatic.TileTypes_Base.Shore:
+                return referent.TexturesBase[2];
+            case ReferentStatic.TileTypes_Base.Beach:
+                return referent.TexturesBase[3];
+            case ReferentStatic.TileTypes_Base.Ground:
+                return referent.TexturesBase[4];
+            default:
+                return null;
+        }
     }
 }

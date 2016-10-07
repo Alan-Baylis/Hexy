@@ -6,5 +6,4 @@ public class Referent : MonoBehaviour {
     public GameObject PFHexagonTileBlank;
     public GameObject[,] ArrayMap;
     public Sprite[] TexturesBase = new Sprite[5];
-    public enum TileTypes_Base { DeepOcean, ShallowOcean, Shore, Beach, Ground};
 }
