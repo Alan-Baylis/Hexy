@@ -14,7 +14,6 @@ public class Testing : MonoBehaviour {
     }
     public void Reload()
     {
-        //Application.LoadLevel(Application.loadedLevel);
         SceneManager.LoadScene(0);
     }
 }
