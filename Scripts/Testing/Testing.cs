@@ -20,7 +20,8 @@ public class Testing : MonoBehaviour {
     }
     public void Reload()
     {
-        SceneManager.LoadScene(0);
+        referent.map.ClearMap(true);
+        referent.map = GenerateWorld();
     }
     void CallMe(string message)
     {
