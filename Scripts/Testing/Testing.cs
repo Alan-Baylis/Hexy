@@ -16,7 +16,9 @@ public class Testing : MonoBehaviour {
     }
     public Map GenerateWorld()
     {
-        return MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake, Random.Range(-2571f,2571f));
+        float seed = Random.Range(-2571f, 2571f);
+        referent.textSeed.text = seed.ToString();
+        return MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake, seed);
     }
     public void Reload()
     {

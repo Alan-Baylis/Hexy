@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.UI;
 
 public class Referent : MonoBehaviour {
     public GameObject GOMapParent;
@@ -9,6 +10,7 @@ public class Referent : MonoBehaviour {
     public GameObject[,] ArrayMap;
     public Sprite[] TexturesBase = new Sprite[5];
     public Map map;
+    public Text textSeed;
 
     public event EventHandler<KeyEventArg> KeyDown;
     public event EventHandler<MouseEventArg> MouseClicked;
