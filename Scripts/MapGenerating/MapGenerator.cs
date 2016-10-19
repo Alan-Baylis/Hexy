@@ -2,9 +2,10 @@
 using System.Collections;
 
 public static class MapGenerator{
-    public static GameObject[,] CreateBlankGrid(Vector2 size, int layer)
+    public static Map CreateBlankGrid(Vector2 size, int layer)
     {
-        Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
+        #region obsolete
+        /*Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
         int width = (int)size.x;
         int height = (int)size.y;
         GameObject[,] created = new GameObject[width, height];
@@ -23,11 +24,32 @@ public static class MapGenerator{
                 created[x, y] = instantiated;
             }
         }
-        return created;
+        return created;*/
+        #endregion
+        Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
+        int width = (int)size.x;
+        int height = (int)size.y;
+        Map map = new Map(width, height);
+        for(int i = 0; i < width; i++)
+            for(int j = 0; j < height; j++)
+            {
+                float newY;
+                if (i % 2 != 0)
+                    newY = j * 1.36f + 1.36f / 2f;
+                else
+                    newY = j * 1.36f;
+                Vector2 pos = new Vector2(i * 1.18f, newY);
+                GameObject instantiated = (GameObject)Object.Instantiate(referent.PFHexagonTileBlank, pos, Quaternion.identity);
+                instantiated.transform.SetParent(referent.GOMapParent.transform, true);
+                pos = instantiated.transform.position;
+                map.AddTile(instantiated, new Vector2(i, j), pos);
+            }
+        return map;
     }
-    public static GameObject[,] MakeTerrainBase(GameObject[,] map, GeneratorType type, float seed)
+    public static Map MakeTerrainBase(Map map, GeneratorType type, float seed)
     {
-        if (map == null)
+        #region obsolete
+        /*if (map == null)
             throw new System.Exception("Base Grid does not exist", new System.NullReferenceException());
         Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
         int width = map.GetLength(0);
@@ -44,6 +66,20 @@ public static class MapGenerator{
                 SetBaseTileType(map[x, y], value, type, referent);
             }
         }
+        return map;*/
+        #endregion
+        if (map == null)
+            throw new System.Exception("Map does not exist", new System.NullReferenceException());
+        Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
+        seed *= 2016;
+        for(int i = 0; i < map.Width; i++)
+            for(int j = 0; j < map.Height; j++)
+            {
+                Vector2 vector = new Vector2((i + seed) * type.scaling, (j + seed) * type.scaling);
+                float noise = PerlinNoise.Sum(vector, type.frequency, type.octaves, type.lacunarity, type.persistence, type.multiplicator, type.addition);
+                GameObject modified = SetBaseTileType(map.GetTileAtGrid(new Vector2(i, j)), noise, type, referent);
+                map.ChangeTile(modified, new Vector2(i, j), modified.transform.position);
+            }
         return map;
     }
     public static GameObject SetBaseTileType(GameObject tile, float value, GeneratorType type, Referent referent)

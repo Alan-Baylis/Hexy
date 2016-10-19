@@ -1,15 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Map {
 
     private GameObject[,] tilesGOs;
     private Vector2[,] positionsWorld;
+    private int width, height;
+    public GameObject[,] MapGOs { get
+        {
+            return tilesGOs;
+        }
+        set
+        {
+            Debug.LogWarning("Direct interference with map grid at object Map. This is not recommended!");
+            tilesGOs = value;
+        }
+    }
+    public Vector2[,] MapPos
+    {
+        get
+        {
+            return positionsWorld;
+        }set
+        {
+            Debug.LogWarning("Direct interference with position grid at object Map. This is not recommended!");
+            positionsWorld = value;
+        }
+    }
+    public Dictionary<GameObject, Vector2> Positions
+    {
+        get
+        {
+            Debug.LogWarning("Using Positions is not recommended, because it iterates through all tiles with every call");
+            Dictionary<GameObject, Vector2> toReturn = new Dictionary<GameObject, Vector2>();
+            for (int i = 0; i < tilesGOs.GetLength(0); i++)
+                for (int j = 0; j < tilesGOs.GetLength(1); j++)
+                    toReturn.Add(tilesGOs[i, j], positionsWorld[i, j]);
+            return toReturn;
+        }
+    }
+    public int Width
+    {
+        get { return width; }
+    }
+    public int Height
+    {
+        get { return height; }
+    }
 
     public Map(int width, int height)
     {
         tilesGOs = new GameObject[width, height];
         positionsWorld = new Vector2[width, height];
+        this.width = width;
+        this.height = height;
     }
 
     public void ClearMap(bool removeFromScene)
@@ -21,6 +66,10 @@ public class Map {
         positionsWorld = new Vector2[tilesGOs.GetLength(0), tilesGOs.GetLength(1)];
     }
     public bool AddTile(GameObject tile, Vector2 coordsGrid, Vector2 coordsWorld)
+    {
+        return ChangeTile(tile, coordsGrid, coordsWorld);
+    }
+    public bool ChangeTile(GameObject tile, Vector2 coordsGrid, Vector2 coordsWorld)
     {
         if (coordsGrid.x > tilesGOs.GetLength(0) || coordsGrid.y > tilesGOs.GetLength(1))
             return false;
