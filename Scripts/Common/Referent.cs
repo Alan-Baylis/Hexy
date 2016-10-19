@@ -23,7 +23,7 @@ public class Referent : MonoBehaviour {
         if (MouseClicked != null && Input.GetMouseButtonDown(0))
         {
             Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            MouseClicked.Invoke(this, new MouseEventArg(0, pos));
+            MouseClicked.Invoke(this, new MouseEventArg(pos, 0));
         }
     }
 }
