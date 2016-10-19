@@ -6,12 +6,13 @@ public class Testing : MonoBehaviour {
     
     void Start()
     {
-        GenerateWorld();
-        GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>().KeyDown += (s, c) => { if(c.keycode != KeyCode.None) CallMe(c.keycode.ToString()); };
+        Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
+        referent.KeyDown += (s, c) => { if (c.keycode != KeyCode.None) CallMe(c.keycode.ToString()); };
+        referent.map = GenerateWorld();
     }
-    public void GenerateWorld()
+    public Map GenerateWorld()
     {
-        MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake, Random.Range(-2571f,2571f));
+        return MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake, Random.Range(-2571f,2571f));
     }
     public void Reload()
     {

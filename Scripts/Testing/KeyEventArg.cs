@@ -10,3 +10,13 @@ public class KeyEventArg : EventArgs {
         keycode = val;
     }
 }
+public class MouseEventArg : EventArgs
+{
+    public readonly int button;
+    public readonly Vector2 position;
+    public MouseEventArg(int button, Vector2 position)
+    {
+        this.button = button;
+        this.position = position;
+    }
+}
