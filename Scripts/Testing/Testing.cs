@@ -21,4 +21,12 @@ public class Testing : MonoBehaviour {
     {
         Debug.Log(message);
     }
+    void GetHexagonForCoordsScreenSpace(Vector2 coords)
+    {
+
+    }
+    void GetHexagonForCoordsWorldSpace(Vector2 coords)
+    {
+
+    }
 }
