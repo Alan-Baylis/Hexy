@@ -35,7 +35,7 @@ public class TileMain : MonoBehaviour {
         set { ChangeCanHoldUnitAerial(value); }
     }
 
-    private Aerial _currentAerial;
+    /*private Aerial _currentAerial;
     public Aerial currentAerial { get { return _currentAerial; } }
     private Worker _currentWorker;
     public Worker currentWorker { get { return _currentWorker; } }
@@ -48,6 +48,14 @@ public class TileMain : MonoBehaviour {
     public City currentCity { get { return _currentCity; } }
     private Village _currentVillage;
     public Village currentVillage { get { return _currentVillage; } }
+    */
+
+    public Aerial currentAerial;
+    public Worker currentWorker;
+    public Ground currentGround;
+    public Naval currentNaval;
+
+    public CityBase currentCity;
 
     public void SetSpriteTerrainBottom(Sprite sprite)
     {
