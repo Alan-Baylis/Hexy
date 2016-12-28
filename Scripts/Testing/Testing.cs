@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 public class Testing : MonoBehaviour {
 
     Referent referent;
+    public BaseUnit selectedUnit;
+
+    private enum KEYMODES { NONE, SPAWN_BASE_UINT, SPAWN_CITY, DELETE_BASE_UNIT, DELETE_CITY }
+    private KEYMODES keymode = KEYMODES.NONE;
 
     void Start()
     {
@@ -16,13 +20,13 @@ public class Testing : MonoBehaviour {
             }};
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.None) isKeyDown = false; };
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.Escape) KillTheGame(); };
-        referent.MouseClicked += (s, p) => { DeleteTile(p.position); };
+        referent.MouseClicked += (s, p) => { HandleClick(p.position); };
         referent.map = GenerateWorld();
     }
     public Map GenerateWorld()
     {
-        float seed = Random.Range(-2571f, 2571f);
-        referent.textSeed.text = seed.ToString();
+        float seed = Random.Range(-500, 500);
+        Debug.Log("Map seed: " + seed);
         return MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake, seed);
     }
     public void Reload()
@@ -44,7 +48,24 @@ public class Testing : MonoBehaviour {
         Debug.Log("Deleting: " + gridPos);
         Destroy(referent.map.GetTileAtWorld(gridPos));
     }
-
+    void HandleClick(Vector2 worldPos)
+    {
+        switch (keymode)
+        {
+            case KEYMODES.NONE:
+                break;
+            case KEYMODES.SPAWN_BASE_UINT:
+                break;
+            case KEYMODES.SPAWN_CITY:
+                break;
+            case KEYMODES.DELETE_BASE_UNIT:
+                break;
+            case KEYMODES.DELETE_CITY:
+                break;
+            default:
+                break;
+        }
+    }
     bool isKeyDown = false;
     void HandleKeyPress(KeyCode keyCode)
     {

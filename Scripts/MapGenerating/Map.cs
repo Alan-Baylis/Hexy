@@ -61,7 +61,7 @@ public class Map {
     {
         if (removeFromScene)
             foreach (GameObject go in tilesGOs)
-                GameObject.Destroy(go);
+                Object.Destroy(go);
         tilesGOs = new GameObject[tilesGOs.GetLength(0), tilesGOs.GetLength(1)];
         positionsWorld = new Vector2[tilesGOs.GetLength(0), tilesGOs.GetLength(1)];
     }
