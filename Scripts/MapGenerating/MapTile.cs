@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MapTile {
     public Vector2 positionGrid;
-    public Vector2 positionWorld;
     public GameObject associatedGOBase;
     public GameObject associatedGOLogic;
     public GameObject associatedGOOverlay;

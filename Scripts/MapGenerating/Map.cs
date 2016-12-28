@@ -4,7 +4,64 @@ using System.Collections.Generic;
 
 public class Map {
 
-    private GameObject[,] tilesGOs;
+    public MapTile[,] tiles;
+    private int[] dimensions;
+
+    public Map(int sizeX, int sizeY)
+    {
+        dimensions = new int[] { sizeX, sizeY };
+    }
+
+    public int Size(int dimension)
+    {
+        if (dimension != 0 || dimension != 1)
+            throw new System.Exception("Invalid dimension");
+        return tiles.GetLength(dimension);
+    }
+
+    public MapTile GetTileAtWorld(Vector2 pos)
+    {
+        for (int x = 0; x < Size(0); x++)
+            for (int y = 0; y < Size(1); y++)
+            {
+                MapTile tile = tiles[x, y];
+                if (tile.associatedGOBase!= null)
+                {
+                    Vector2 gridPos = GetGridPosOf(pos);
+                    if (gridPos == tile.positionGrid)
+                    {
+                        return tile;
+                    }
+                }
+            }
+        return null;
+    }
+
+    public Vector2 GetGridPosOf(Vector2 worldPos)
+    {
+        float distance = float.MaxValue;
+        int foundX = -1;
+        int foundY = -1;
+        for (int i = 0; i < Size(0); i++)
+            for (int j = 0; j < Size(1); j++)
+            {
+                MapTile tile = tiles[i, j];
+                float distanceX = worldPos.x - tile.associatedGOBase.transform.position.x;
+                float distanceY = worldPos.y - tile.associatedGOBase.transform.position.y;
+                float a = distanceX * distanceX;
+                float b = distanceY * distanceY;
+                float c = Mathf.Sqrt(a + b);
+                if (c < distance)
+                {
+                    distance = c;
+                    foundX = i;
+                    foundY = j;
+                }
+            }
+        return new Vector2(foundX, foundY);
+    }
+
+    /*private GameObject[,] tilesGOs;
     private Vector2[,] positionsWorld;
     private int width, height;
     public GameObject[,] MapGOs { get
@@ -89,7 +146,6 @@ public class Map {
         for (int i = 0; i < positionsWorld.GetLength(0); i++)
             for (int j = 0; j < positionsWorld.GetLength(1); j++)
             {
-
                 float distanceX = worldPos.x - positionsWorld[i, j].x;
                 float distanceY = worldPos.y - positionsWorld[i, j].y;
                 float a = distanceX * distanceX;
@@ -112,5 +168,7 @@ public class Map {
     public GameObject GetTileAtGrid(Vector2 gridPos)
     {
         return tilesGOs[(int)gridPos.x, (int)gridPos.y];
-    }
+    }*/
+
+
 }
