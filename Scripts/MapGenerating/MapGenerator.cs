@@ -2,8 +2,8 @@
 using System.Collections;
 
 public static class MapGenerator{
-
-    public static float[,] MakeTerrainBaseValues(int sizeX, int sizeY, GeneratorType genType, float seed)
+    
+    public static float[,] GenerateTerrainValues(int sizeX, int sizeY, GeneratorType genType, float seed)
     {
         if (sizeX <= 0 || sizeY <= 0)
             throw new System.Exception("Invalid dimensions");
@@ -13,9 +13,10 @@ public static class MapGenerator{
             for(int y = 0; y < sizeY; y++)
             {
                 Vector2 vector = new Vector2((x + seed) * genType.scaling, (y + seed) * genType.scaling);
-
+                float localValue = PerlinNoise.Sum(vector, genType);
+                toReturn[x, y] = localValue;
             }
-        return null;
+        return toReturn;
     }
 
     public static Map CreateBlankGrid(Vector2 size, int layer)
@@ -40,7 +41,8 @@ public static class MapGenerator{
             }
         return map;
     }
-    public static Map MakeTerrainBase(Map map, GeneratorType type, float seed)
+    #region obsolete
+    /*public static Map MakeTerrainBase(Map map, GeneratorType type, float seed)
     {
         if (map == null)
             throw new System.Exception("Map does not exist", new System.NullReferenceException());
@@ -95,5 +97,6 @@ public static class MapGenerator{
             default:
                 return null;
         }
-    }
+    }*/
+    #endregion
 }
