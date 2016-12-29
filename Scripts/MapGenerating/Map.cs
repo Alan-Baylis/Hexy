@@ -26,14 +26,16 @@ public class Map {
         return null;
     }
 
-    private List<GameObject> plotted = new List<GameObject>();
+    private List<GameObject> plottedBase = new List<GameObject>();
+    private List<GameObject> plottedLogic = new List<GameObject>();
+    private List<GameObject> plottedOverlay = new List<GameObject>();
 
     public void PlotBase(Transform holder)
     {
         for(int x = 0; x < Size(0); x++)
             for(int y = 0; y < Size(1); y++)
             {
-                GameObject createdTile = new GameObject("Tile - Base (" + tiles[x, y].tileValue + ")");
+                GameObject createdTileBase = new GameObject("Tile [" + x + "; " + y + "] - Base (" + tiles[x, y].tileValue + ")");
                 float newPosX = x * ReferentStatic.GOPlottingScalarX;
                 float newPosY;
                 if (x % 2 != 0)
@@ -41,17 +43,34 @@ public class Map {
                 else
                     newPosY = y * ReferentStatic.GOPlottingScalarY;
                 Vector2 newPosition = new Vector2(newPosX, newPosY);
-                createdTile.transform.position = newPosition;
-                createdTile.transform.SetParent(holder, true);
-                tiles[x, y].associatedGOBase = createdTile;
-                SpriteRenderer renderer = createdTile.AddComponent<SpriteRenderer>();
+                createdTileBase.transform.position = newPosition;
+                createdTileBase.transform.SetParent(holder, true);
+                tiles[x, y].associatedGOBase = createdTileBase;
+                SpriteRenderer renderer = createdTileBase.AddComponent<SpriteRenderer>();
                 renderer.sprite = GetSpriteForValue(tiles[x, y].tileValue);
-                plotted.Add(createdTile);
+                plottedBase.Add(createdTileBase);
+
+                GameObject createdTileLogic = new GameObject("Tile [" + x + "; " + y + "] - Logic");
+                GameObject createdTileOverlay = new GameObject("Tile [" + x + "; " + y + "] - Overlay");
+                createdTileLogic.transform.SetParent(createdTileBase.transform);
+                createdTileOverlay.transform.SetParent(createdTileBase.transform);
+                tiles[x, y].associatedGOLogic = createdTileLogic;
+                tiles[x, y].associatedGOOverlay = createdTileOverlay;
+                plottedLogic.Add(createdTileLogic);
+                plottedOverlay.Add(createdTileOverlay);
             }
     }
     public void UnplotAll()
     {
-        foreach(GameObject GO in plotted)
+        foreach(GameObject GO in plottedOverlay)
+        {
+            Object.Destroy(GO);
+        }
+        foreach (GameObject GO in plottedLogic)
+        {
+            Object.Destroy(GO);
+        }
+        foreach (GameObject GO in plottedBase)
         {
             Object.Destroy(GO);
         }
