@@ -23,7 +23,7 @@ public static class MapPlotter {
                 createdTile.transform.SetParent(holder, true);
                 map.tiles[x, y].associatedGOBase = createdTile;
                 SpriteRenderer renderer = createdTile.AddComponent<SpriteRenderer>();
-                renderer.sprite = ReferentStatic.ReferentDynamic().TexturesBase[0];
+                renderer.sprite = GetSpriteForValue(map.tiles[x, y].tileValue);
 
                 plotted.Add(createdTile);
             }
@@ -34,6 +34,38 @@ public static class MapPlotter {
         foreach(GameObject toDestroy in plotted)
         {
             GameObject.Destroy(toDestroy);
+        }
+    }
+    private static Sprite GetSpriteForValue(float value)
+    {
+        Referent referent = ReferentStatic.ReferentDynamic();
+        if (value < 0.02f)
+            return referent.TexturesBase[0];
+        if (value < 0.15f)
+            return referent.TexturesBase[1];
+        if (value < 0.4f)
+            return referent.TexturesBase[2];
+        if (value < 0.58f)
+            return referent.TexturesBase[3];
+        return referent.TexturesBase[4];
+    }
+    private static Sprite GetSpriteForType(ReferentStatic.TileTypes_Base type)
+    {
+        Referent referent = ReferentStatic.ReferentDynamic();
+        switch (type)
+        {
+            case ReferentStatic.TileTypes_Base.DeepOcean:
+                return referent.TexturesBase[0];
+            case ReferentStatic.TileTypes_Base.ShallowOcean:
+                return referent.TexturesBase[1];
+            case ReferentStatic.TileTypes_Base.Shore:
+                return referent.TexturesBase[2];
+            case ReferentStatic.TileTypes_Base.Beach:
+                return referent.TexturesBase[3];
+            case ReferentStatic.TileTypes_Base.Ground:
+                return referent.TexturesBase[4];
+            default:
+                return null;
         }
     }
 }

@@ -7,7 +7,7 @@ public static class MapGenerator{
     {
         if (sizeX <= 0 || sizeY <= 0)
             throw new System.Exception("Invalid dimensions");
-        seed *= System.DateTime.Now.Millisecond * System.DateTime.Now.Year;
+        seed *= System.DateTime.Now.Year / System.DateTime.Now.Millisecond;
         float[,] toReturn = new float[sizeX, sizeY];
         for(int x = 0; x < sizeX; x++)
             for(int y = 0; y < sizeY; y++)
