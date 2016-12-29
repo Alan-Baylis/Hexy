@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class Testing : MonoBehaviour {
@@ -21,14 +22,21 @@ public class Testing : MonoBehaviour {
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.None) isKeyDown = false; };
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.Escape) KillTheGame(); };
         referent.MouseClicked += (s, p) => { HandleClick(p.position); };
+        
+        int childCount = referent.GOMapParent.transform.childCount;
+        for(int i = 0; i < childCount; i++)
+        {
+            GameObject child = referent.GOMapParent.transform.GetChild(i).gameObject;
+            Destroy(child);
+        }
 
         //referent.map = GenerateWorld();
-        referent.map = SaveHandler.LoadMap(@"D:\map_save.fur");
-
         //SaveHandler.SaveMap(referent.map, @"D:\map_save.fur");
 
+        referent.map = SaveHandler.LoadMap(@"D:\map_save.fur");
+        
         MapPlotter.PlotBase(referent.map, referent.GOMapParent.transform);
-        Debug.Log("Propably done with the world stuff");
+        //Debug.Log("Propably done with the world stuff");
     }
     public Map GenerateWorld()
     {
@@ -45,11 +53,16 @@ public class Testing : MonoBehaviour {
             }
         return newMap;
     }
-    public void Reload()
+
+    List<Vector2> citiesPositions = new List<Vector2>();
+    public void CreateRandomCity()
     {
-        /*referent.map.ClearMap(true);
-        referent.map = GenerateWorld();*/
+        int posX = Random.Range(0, ReferentStatic.ReferentDynamic().map.Size(0));
+        int posY = Random.Range(0, ReferentStatic.ReferentDynamic().map.Size(1));
+
+
     }
+
     void CallMe(string message)
     {
         Debug.Log(message);
