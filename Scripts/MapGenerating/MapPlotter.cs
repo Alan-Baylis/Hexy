@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class MapPlotter {
-    
+
+    private static List<GameObject> plotted = new List<GameObject>();
+
     public static void PlotBase(Map map, Transform holder)
     {
         for(int x = 0; x < map.Size(0); x++)
@@ -22,8 +24,16 @@ public static class MapPlotter {
                 map.tiles[x, y].associatedGOBase = createdTile;
                 SpriteRenderer renderer = createdTile.AddComponent<SpriteRenderer>();
                 renderer.sprite = ReferentStatic.ReferentDynamic().TexturesBase[0];
+
+                plotted.Add(createdTile);
             }
         Debug.Log("Propably done plotting map"); //TODO remove and cleanup
     }
-
+    public static void DestroyAll()
+    {
+        foreach(GameObject toDestroy in plotted)
+        {
+            GameObject.Destroy(toDestroy);
+        }
+    }
 }
