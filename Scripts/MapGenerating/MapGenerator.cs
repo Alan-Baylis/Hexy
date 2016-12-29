@@ -4,28 +4,6 @@ using System.Collections;
 public static class MapGenerator{
     public static Map CreateBlankGrid(Vector2 size, int layer)
     {
-        #region obsolete
-        /*Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
-        int width = (int)size.x;
-        int height = (int)size.y;
-        GameObject[,] created = new GameObject[width, height];
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                float newY;
-                if (x % 2 != 0)
-                    newY = y * 1.36f + 1.36f / 2f;
-                else
-                    newY = y * 1.36f;
-                Vector2 pos = new Vector2(x * 1.18f, newY);
-                GameObject instantiated = (GameObject)Object.Instantiate(referent.PFHexagonTileBlank, pos, Quaternion.identity);
-                instantiated.transform.SetParent(referent.GOMapParent.transform, true);
-                created[x, y] = instantiated;
-            }
-        }
-        return created;*/
-        #endregion
         Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
         int width = (int)size.x;
         int height = (int)size.y;
