@@ -2,6 +2,22 @@
 using System.Collections;
 
 public static class MapGenerator{
+
+    public static float[,] MakeTerrainBaseValues(int sizeX, int sizeY, GeneratorType genType, float seed)
+    {
+        if (sizeX <= 0 || sizeY <= 0)
+            throw new System.Exception("Invalid dimensions");
+        seed *= System.DateTime.Now.Millisecond * System.DateTime.Now.Year;
+        float[,] toReturn = new float[sizeX, sizeY];
+        for(int x = 0; x < sizeX; x++)
+            for(int y = 0; y < sizeY; y++)
+            {
+                Vector2 vector = new Vector2((x + seed) * genType.scaling, (y + seed) * genType.scaling);
+
+            }
+        return null;
+    }
+
     public static Map CreateBlankGrid(Vector2 size, int layer)
     {
         Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
