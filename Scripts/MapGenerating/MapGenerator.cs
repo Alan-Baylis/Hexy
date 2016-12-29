@@ -48,26 +48,6 @@ public static class MapGenerator{
     }
     public static Map MakeTerrainBase(Map map, GeneratorType type, float seed)
     {
-        #region obsolete
-        /*if (map == null)
-            throw new System.Exception("Base Grid does not exist", new System.NullReferenceException());
-        Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
-        int width = map.GetLength(0);
-        int height = map.GetLength(1);
-        float[,] pointsG = new float[width, height];
-        for(int x = 0; x < width; x++)
-        {
-            for(int y = 0; y < height; y++)
-            {
-                float newSeed = seed * 2016;
-                Vector2 vector = new Vector2((x + newSeed) * type.scaling, (y + newSeed) * type.scaling);
-                float value = PerlinNoise.Sum(vector, type.frequency, type.octaves, type.lacunarity, type.persistence, type.multiplicator, type.addition);
-                pointsG[x, y] = value;
-                SetBaseTileType(map[x, y], value, type, referent);
-            }
-        }
-        return map;*/
-        #endregion
         if (map == null)
             throw new System.Exception("Map does not exist", new System.NullReferenceException());
         Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
