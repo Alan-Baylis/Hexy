@@ -27,16 +27,16 @@ public class Testing : MonoBehaviour {
     }
     public Map GenerateWorld()
     {
+        int[] mapSize = new int[] { 52, 26 };
+
         float seed = Random.Range(-500, 500);
         Debug.Log("Map seed: " + seed);
-        //return MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake, seed);
-        float[,] perlinValues = MapGenerator.GenerateTerrainValues(25, 25, MapTypes.NormalLake, seed);
-        Map newMap = new Map(25, 25);
-        for(int x = 0; x < 25; x++)
-            for(int y = 0; y < 25; y++)
+        float[,] perlinValues = MapGenerator.GenerateTerrainValues(mapSize[0], mapSize[1], MapTypes.NormalLake, seed);
+        Map newMap = new Map(mapSize[0], mapSize[1]);
+        for(int x = 0; x < mapSize[0]; x++)
+            for(int y = 0; y < mapSize[1]; y++)
             {
                 newMap.tiles[x, y] = new MapTile(perlinValues[x, y], new Vector2(x, y));
-                //newMap.tiles[x, y].tileValue = perlinValues[x, y];
             }
         return newMap;
     }
