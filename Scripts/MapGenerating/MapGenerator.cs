@@ -18,8 +18,8 @@ public static class MapGenerator{
             }
         return toReturn;
     }
-
-    public static Map CreateBlankGrid(Vector2 size, int layer)
+    #region obsolete
+    /*public static Map CreateBlankGrid(Vector2 size, int layer)
     {
         Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
         int width = (int)size.x;
@@ -41,8 +41,7 @@ public static class MapGenerator{
             }
         return map;
     }
-    #region obsolete
-    /*public static Map MakeTerrainBase(Map map, GeneratorType type, float seed)
+    public static Map MakeTerrainBase(Map map, GeneratorType type, float seed)
     {
         if (map == null)
             throw new System.Exception("Map does not exist", new System.NullReferenceException());

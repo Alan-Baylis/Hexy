@@ -22,17 +22,28 @@ public class Testing : MonoBehaviour {
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.Escape) KillTheGame(); };
         referent.MouseClicked += (s, p) => { HandleClick(p.position); };
         referent.map = GenerateWorld();
+        MapPlotter.PlotBase(referent.map, referent.GOMapParent.transform);
+        Debug.Log("Propably done with the world stuff");
     }
     public Map GenerateWorld()
     {
         float seed = Random.Range(-500, 500);
         Debug.Log("Map seed: " + seed);
-        return MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake, seed);
+        //return MapGenerator.MakeTerrainBase(MapGenerator.CreateBlankGrid(new Vector2(49, 23), 0), MapTypes.NormalLake, seed);
+        float[,] perlinValues = MapGenerator.GenerateTerrainValues(25, 25, MapTypes.NormalLake, seed);
+        Map newMap = new Map(25, 25);
+        for(int x = 0; x < 25; x++)
+            for(int y = 0; y < 25; y++)
+            {
+                newMap.tiles[x, y] = new MapTile(perlinValues[x, y], new Vector2(x, y));
+                //newMap.tiles[x, y].tileValue = perlinValues[x, y];
+            }
+        return newMap;
     }
     public void Reload()
     {
-        referent.map.ClearMap(true);
-        referent.map = GenerateWorld();
+        /*referent.map.ClearMap(true);
+        referent.map = GenerateWorld();*/
     }
     void CallMe(string message)
     {
@@ -45,8 +56,8 @@ public class Testing : MonoBehaviour {
     }
     void DeleteTile(Vector2 gridPos)
     {
-        Debug.Log("Deleting: " + gridPos);
-        Destroy(referent.map.GetTileAtWorld(gridPos));
+        /*Debug.Log("Deleting: " + gridPos);
+        Destroy(referent.map.GetTileAtWorld(gridPos));*/
     }
     void HandleClick(Vector2 worldPos)
     {

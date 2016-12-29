@@ -10,11 +10,21 @@ public class Map {
     public Map(int sizeX, int sizeY)
     {
         dimensions = new int[] { sizeX, sizeY };
+        tiles = new MapTile[sizeX, sizeY];
     }
 
+    /*public void PopulateBlank()
+    {
+        for (int x = 0; x < Size(0); x++)
+            for (int y = 0; y < Size(1); y++)
+            {
+
+            }
+    }
+    */
     public int Size(int dimension)
     {
-        if (dimension != 0 || dimension != 1)
+        if (dimension != 0 && dimension != 1)
             throw new System.Exception("Invalid dimension");
         return tiles.GetLength(dimension);
     }
