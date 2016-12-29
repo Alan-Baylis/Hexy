@@ -34,8 +34,9 @@ public class Testing : MonoBehaviour {
         //SaveHandler.SaveMap(referent.map, @"D:\map_save.fur");
 
         referent.map = SaveHandler.LoadMap(@"D:\map_save.fur");
-        
-        MapPlotter.PlotBase(referent.map, referent.GOMapParent.transform);
+
+        referent.map.PlotBase(referent.GOMapParent.transform);
+        //MapPlotter.PlotBase(referent.map, referent.GOMapParent.transform);
         //Debug.Log("Propably done with the world stuff");
     }
     public Map GenerateWorld()
