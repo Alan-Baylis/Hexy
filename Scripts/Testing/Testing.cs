@@ -21,7 +21,12 @@ public class Testing : MonoBehaviour {
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.None) isKeyDown = false; };
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.Escape) KillTheGame(); };
         referent.MouseClicked += (s, p) => { HandleClick(p.position); };
-        referent.map = GenerateWorld();
+
+        //referent.map = GenerateWorld();
+        referent.map = SaveHandler.LoadMap(@"D:\map_save.fur");
+
+        //SaveHandler.SaveMap(referent.map, @"D:\map_save.fur");
+
         MapPlotter.PlotBase(referent.map, referent.GOMapParent.transform);
         Debug.Log("Propably done with the world stuff");
     }
