@@ -24,7 +24,7 @@ public static class MapGenerator{
         Referent referent = GameObject.FindGameObjectWithTag("referent").GetComponent<Referent>();
         int width = (int)size.x;
         int height = (int)size.y;
-        Map map = new Map(width, height);
+        Map map = new Map(width, height);    //important start
         for(int i = 0; i < width; i++)
             for(int j = 0; j < height; j++)
             {
@@ -39,6 +39,7 @@ public static class MapGenerator{
                 pos = instantiated.transform.position;
                 map.AddTile(instantiated, new Vector2(i, j), pos);
             }
+                                             //important stop
         return map;
     }
     public static Map MakeTerrainBase(Map map, GeneratorType type, float seed)

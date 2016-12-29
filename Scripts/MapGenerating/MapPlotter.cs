@@ -10,7 +10,14 @@ public static class MapPlotter {
             for(int y = 0; y < map.Size(1); y++)
             {
                 GameObject createdTile = new GameObject("Tile - Base (" + map.tiles[x, y].tileValue + ")");
-                createdTile.transform.position = map.tiles[x, y].positionGrid; //let's just go with this without the scalar for now, TODO add scalar
+                float newPosX = x * ReferentStatic.GOPlottingScalarX;
+                float newPosY;
+                if (x % 2 != 0)
+                    newPosY = y * ReferentStatic.GOPlottingScalarY + ReferentStatic.GOPlottingScalarY / 2;
+                else
+                    newPosY = y * ReferentStatic.GOPlottingScalarY;
+                Vector2 newPosition = new Vector2(newPosX, newPosY);
+                createdTile.transform.position = newPosition;
                 createdTile.transform.SetParent(holder, true);
                 map.tiles[x, y].associatedGOBase = createdTile;
                 SpriteRenderer renderer = createdTile.AddComponent<SpriteRenderer>();
