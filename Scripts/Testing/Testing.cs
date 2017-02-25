@@ -10,6 +10,7 @@ public class Testing : MonoBehaviour {
 
     private enum KEYMODES { NONE, SPAWN_BASE_UINT, SPAWN_CITY, DELETE_BASE_UNIT, DELETE_CITY }
     private KEYMODES keymode = KEYMODES.NONE;
+    private enum MouseStates { Down, Held, Released, None}
 
     void Start()
     {
@@ -18,11 +19,13 @@ public class Testing : MonoBehaviour {
             {
                 CallMe(c.keycode.ToString());
                 HandleKeyPress(c.keycode);
-            }};
+            } };
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.None) isKeyDown = false; };
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.Escape) KillTheGame(); };
-        referent.MouseClicked += (s, p) => { HandleClick(p.position); };
-        
+        referent.MouseDown += (s, p) => { HandleClick(p.position, MouseStates.Down); };
+        referent.MouseHeld += (s, p) => { HandleClick(p.position, MouseStates.Held); };
+        referent.MouseReleased += (s, p) => { HandleClick(p.position, MouseStates.Released); };
+
         int childCount = referent.GOMapParent.transform.childCount;
         for(int i = 0; i < childCount; i++)
         {
@@ -73,48 +76,38 @@ public class Testing : MonoBehaviour {
         Debug.LogWarning("The game is quitting");
         Application.Quit();
     }
+
+    [System.Obsolete("Marked for deletion")]
     void DeleteTile(Vector2 gridPos)
     {
         /*Debug.Log("Deleting: " + gridPos);
         Destroy(referent.map.GetTileAtWorld(gridPos));*/
     }
-    void HandleClick(Vector2 worldPos)
+
+    Vector2 _pos_initial;
+    void HandleClick(Vector2 worldPos, MouseStates state)
     {
-        /*switch (keymode)
-        {
-            case KEYMODES.NONE:
-                break;
-            case KEYMODES.SPAWN_BASE_UINT:
-                break;
-            case KEYMODES.SPAWN_CITY:
-                break;
-            case KEYMODES.DELETE_BASE_UNIT:
-                break;
-            case KEYMODES.DELETE_CITY:
-                break;
-            default:
-                break;
-        }*/
+        //Debug.Log("Click state: " + state);
 
-        /*//try to select stuff
-
-        //raycast from top of the world down
-        Vector3 raycastFrom = new Vector3(worldPos.x, worldPos.y, -10);
-        Vector3 raycastTo = new Vector3(worldPos.x, worldPos.y);
-        RaycastHit raycastHit;
-        if(Physics.Raycast(raycastFrom, raycastTo, out raycastHit))
+        if(state == MouseStates.Down)
         {
-            //raycasting found object
-            GameObject objectHit = raycastHit.transform.gameObject;
-            if(objectHit.GetComponent<Selectable>() != null)
+            _pos_initial = worldPos;
+        }else if(state == MouseStates.Released)
+        {
+            float distance_traced = (_pos_initial - worldPos).magnitude;
+            //Debug.Log("Distance traced: " + distance_traced);
+
+            if(distance_traced < 0.35f)
             {
-                //object is selectable
-
+                Debug.Log("Clicked");
+            }else
+            {
+                Debug.Log("Dragged");
             }
-        }*/
+        }
 
-        MapTile tile = referent.map.GetTileAtWorld(worldPos);
-        tile.selected = !tile.selected;
+        /*MapTile tile = referent.map.GetTileAtWorld(worldPos);
+        tile.selected = !tile.selected;*/
     }
     bool isKeyDown = false;
     void HandleKeyPress(KeyCode keyCode)
