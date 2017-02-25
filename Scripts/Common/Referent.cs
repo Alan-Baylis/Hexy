@@ -14,6 +14,7 @@ public class Referent : MonoBehaviour {
 
     public event EventHandler<KeyEventArg> KeyDown;
     public event EventHandler<MouseEventArg> MouseDown, MouseHeld, MouseReleased;
+    public event EventHandler<MouseEventArg> RMouseDown, RMouseHeld, RMouseReleased;
 
     void OnGUI()
     {
@@ -43,5 +44,12 @@ public class Referent : MonoBehaviour {
             MouseHeld.Invoke(this, new MouseEventArg(pos, 0));
         else if(Input.GetMouseButtonUp(0))
             MouseReleased.Invoke(this, new MouseEventArg(pos, 0));
+
+        if (Input.GetMouseButtonDown(1))
+            RMouseDown.Invoke(this, new MouseEventArg(pos, 0));
+        else if (Input.GetMouseButton(1))
+            RMouseHeld.Invoke(this, new MouseEventArg(pos, 0));
+        else if (Input.GetMouseButtonUp(1))
+            RMouseReleased.Invoke(this, new MouseEventArg(pos, 0));
     }
 }

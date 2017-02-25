@@ -22,9 +22,12 @@ public class Testing : MonoBehaviour {
             } };
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.None) isKeyDown = false; };
         referent.KeyDown += (s, c) => { if (c.keycode == KeyCode.Escape) KillTheGame(); };
-        referent.MouseDown += (s, p) => { HandleClick(p.position, MouseStates.Down); };
-        referent.MouseHeld += (s, p) => { HandleClick(p.position, MouseStates.Held); };
-        referent.MouseReleased += (s, p) => { HandleClick(p.position, MouseStates.Released); };
+        referent.MouseDown += (s, p) => { HandleClick(p.position, MouseStates.Down, true); };
+        referent.MouseHeld += (s, p) => { HandleClick(p.position, MouseStates.Held, true); };
+        referent.MouseReleased += (s, p) => { HandleClick(p.position, MouseStates.Released, true); };
+        referent.RMouseDown += (s, p) => { HandleClick(p.position, MouseStates.Down, false); };
+        referent.RMouseHeld += (s, p) => { HandleClick(p.position, MouseStates.Held, false); };
+        referent.RMouseReleased += (s, p) => { HandleClick(p.position, MouseStates.Released, false); };
 
         int childCount = referent.GOMapParent.transform.childCount;
         for(int i = 0; i < childCount; i++)
@@ -84,25 +87,67 @@ public class Testing : MonoBehaviour {
         Destroy(referent.map.GetTileAtWorld(gridPos));*/
     }
 
-    Vector2 _pos_initial;
-    void HandleClick(Vector2 worldPos, MouseStates state)
+    void ClickLeft(Vector2 pos)
+    {
+
+    }
+    void DragLeft(Vector2 start, Vector2 end)
+    {
+
+    }
+    void ClickRight(Vector2 pos)
+    {
+
+    }
+    void DragRight(Vector2 start, Vector2 end)
+    {
+
+    }
+
+    Vector2 _pos_initial_left, _pos_initial_right;
+    void HandleClick(Vector2 worldPos, MouseStates state, bool left)
     {
         //Debug.Log("Click state: " + state);
 
-        if(state == MouseStates.Down)
+        if (left)
         {
-            _pos_initial = worldPos;
-        }else if(state == MouseStates.Released)
-        {
-            float distance_traced = (_pos_initial - worldPos).magnitude;
-            //Debug.Log("Distance traced: " + distance_traced);
+            if (state == MouseStates.Down)
+            {
+                _pos_initial_left = worldPos;
+            }
+            else if (state == MouseStates.Released)
+            {
+                float distance_traced = (_pos_initial_left - worldPos).magnitude;
+                //Debug.Log("Distance traced: " + distance_traced);
 
-            if(distance_traced < 0.35f)
+                if (distance_traced < 0.35f)
+                {
+                    ClickLeft(worldPos);
+                }
+                else
+                {
+                    DragLeft(_pos_initial_left, worldPos);
+                }
+            }
+        }else
+        {
+            if (state == MouseStates.Down)
             {
-                Debug.Log("Clicked");
-            }else
+                _pos_initial_right = worldPos;
+            }
+            else if (state == MouseStates.Released)
             {
-                Debug.Log("Dragged");
+                float distance_traced = (_pos_initial_right - worldPos).magnitude;
+                //Debug.Log("Distance traced: " + distance_traced);
+
+                if (distance_traced < 0.35f)
+                {
+                    ClickRight(worldPos);
+                }
+                else
+                {
+                    DragRight(_pos_initial_right, worldPos);
+                }
             }
         }
 
