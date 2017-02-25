@@ -19,14 +19,6 @@ public static class SaveHandler {
                     line += "false|";
                 else
                     line += "true|";
-                if (tile.associatedGOLogic == null)
-                    line += "false|";
-                else
-                    line += "true|";
-                if (tile.associatedGOOverlay == null)
-                    line += "false|";
-                else
-                    line += "true|";
                 toSave.Add(line);
             }
         toSave.Add("Map_Save_End");

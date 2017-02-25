@@ -3,13 +3,7 @@ using System.Collections;
 
 public class TileMain : MonoBehaviour {
     public SpriteRenderer UNIT_AIR, UNIT_GROUND, TERRAIN_TOP, TERRAIN_MID, TERRAIN_BOTTOM, BACKGROUND;
-
-    private bool _canHoldVillage;
-    public bool canHoldVillage
-    {
-        get { return _canHoldVillage; }
-        set { ChangeCanHoldVillage(value); }
-    }
+    
     private bool _canHoldCity;
     public bool canHoldCity
     {
@@ -34,26 +28,6 @@ public class TileMain : MonoBehaviour {
         get { return _canHoldUnitAerial; }
         set { ChangeCanHoldUnitAerial(value); }
     }
-
-    /*private Aerial _currentAerial;
-    public Aerial currentAerial { get { return _currentAerial; } }
-    private Worker _currentWorker;
-    public Worker currentWorker { get { return _currentWorker; } }
-    private Ground _currentGround;
-    public Ground currentGround { get { return _currentGround; } }
-    private Naval _currentNaval;
-    public Naval currentNaval { get { return _currentNaval; } }
-
-    private City _currentCity;
-    public City currentCity { get { return _currentCity; } }
-    private Village _currentVillage;
-    public Village currentVillage { get { return _currentVillage; } }
-    */
-
-    public Aerial currentAerial;
-    public Worker currentWorker;
-    public Ground currentGround;
-    public Naval currentNaval;
 
     public CityBase currentCity;
 

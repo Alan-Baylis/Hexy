@@ -20,22 +20,23 @@ public class Map {
         return tiles.GetLength(dimension);
     }
 
+    [System.Obsolete("Marked for deletion")]
     public GameObject AddCity(int posX, int posY, string name)
     {
-
         return null;
     }
 
     private List<GameObject> plottedBase = new List<GameObject>();
-    private List<GameObject> plottedLogic = new List<GameObject>();
-    private List<GameObject> plottedOverlay = new List<GameObject>();
 
     public void PlotBase(Transform holder)
     {
         for(int x = 0; x < Size(0); x++)
             for(int y = 0; y < Size(1); y++)
             {
-                GameObject createdTileBase = new GameObject("Tile [" + x + "; " + y + "] - Base (" + tiles[x, y].tileValue + ")");
+                //creating the base GO
+                GameObject createdTileBase = Object.Instantiate(ReferentStatic.ReferentDynamic().PFHexagonTileBlank);
+                createdTileBase.name = "Tile [" + x + "; " + y + "] - Base (" + tiles[x, y].tileValue + ")";
+                //positioning the base GO
                 float newPosX = x * ReferentStatic.GOPlottingScalarX;
                 float newPosY;
                 if (x % 2 != 0)
@@ -45,31 +46,54 @@ public class Map {
                 Vector2 newPosition = new Vector2(newPosX, newPosY);
                 createdTileBase.transform.position = newPosition;
                 createdTileBase.transform.SetParent(holder, true);
-                tiles[x, y].associatedGOBase = createdTileBase;
-                SpriteRenderer renderer = createdTileBase.AddComponent<SpriteRenderer>();
+                //getting the GOs
+                GameObject createdTileSelectionRing = null,
+                    createdTileOverlay = null,
+                    createdTileTerrainTop = null,
+                    createdTileTerrainMid = null,
+                    createdTileTerrainBottom = null;
+                int children_count = createdTileBase.transform.childCount;
+                for(int i = 0; i < children_count; i++)
+                {
+                    GameObject children = createdTileBase.transform.GetChild(i).gameObject;
+                    switch (children.name)
+                    {
+                        case "SelectionRing":
+                            createdTileSelectionRing = children;
+                            break;
+                        case "Overlay":
+                            createdTileOverlay = children;
+                            break;
+                        case "TerrainTop":
+                            createdTileTerrainTop = children;
+                            break;
+                        case "TerrainMid":
+                            createdTileTerrainMid = children;
+                            break;
+                        case "TerrainBottom":
+                            createdTileTerrainBottom = children;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                //assigning the GOs
+                MapTile toAssign = tiles[x, y];
+                toAssign.associatedGOBase = createdTileBase;
+                toAssign.associatedGOSelectionRing = createdTileSelectionRing;
+                toAssign.associatedGOOverlay = createdTileOverlay;
+                toAssign.associatedGOTerrainBottom = createdTileTerrainBottom;
+                toAssign.associatedGOTerrainMid = createdTileTerrainMid;
+                toAssign.associatedGOTerrainTop = createdTileTerrainTop;
+                //set tile BG sprite
+                SpriteRenderer renderer = createdTileBase.GetComponent<SpriteRenderer>();
                 renderer.sprite = GetSpriteForValue(tiles[x, y].tileValue);
+                //add base GO to plotted list for future deletion
                 plottedBase.Add(createdTileBase);
-
-                GameObject createdTileLogic = new GameObject("Tile [" + x + "; " + y + "] - Logic");
-                GameObject createdTileOverlay = new GameObject("Tile [" + x + "; " + y + "] - Overlay");
-                createdTileLogic.transform.SetParent(createdTileBase.transform);
-                createdTileOverlay.transform.SetParent(createdTileBase.transform);
-                tiles[x, y].associatedGOLogic = createdTileLogic;
-                tiles[x, y].associatedGOOverlay = createdTileOverlay;
-                plottedLogic.Add(createdTileLogic);
-                plottedOverlay.Add(createdTileOverlay);
             }
     }
     public void UnplotAll()
     {
-        foreach(GameObject GO in plottedOverlay)
-        {
-            Object.Destroy(GO);
-        }
-        foreach (GameObject GO in plottedLogic)
-        {
-            Object.Destroy(GO);
-        }
         foreach (GameObject GO in plottedBase)
         {
             Object.Destroy(GO);
@@ -111,20 +135,28 @@ public class Map {
 
     public MapTile GetTileAtWorld(Vector2 pos)
     {
+        MapTile closest = null;
+        float closestDelta = float.NaN;
         for (int x = 0; x < Size(0); x++)
             for (int y = 0; y < Size(1); y++)
             {
                 MapTile tile = tiles[x, y];
                 if (tile.associatedGOBase!= null)
                 {
-                    Vector2 gridPos = GetGridPosOf(pos);
-                    if (gridPos == tile.positionGrid)
+                    float delta = ((Vector2)tile.associatedGOBase.transform.position - pos).magnitude;
+                    if (float.IsNaN(closestDelta))
                     {
-                        return tile;
+                        closestDelta = delta;
+                        closest = tile;
+                    }
+                    else if (delta < closestDelta)
+                    {
+                        closestDelta = delta;
+                        closest = tile;
                     }
                 }
             }
-        return null;
+        return closest;
     }
 
     public Vector2 GetGridPosOf(Vector2 worldPos)
@@ -150,115 +182,4 @@ public class Map {
             }
         return new Vector2(foundX, foundY);
     }
-
-    /*private GameObject[,] tilesGOs;
-    private Vector2[,] positionsWorld;
-    private int width, height;
-    public GameObject[,] MapGOs { get
-        {
-            return tilesGOs;
-        }
-        set
-        {
-            Debug.LogWarning("Direct interference with map grid at object Map. This is not recommended!");
-            tilesGOs = value;
-        }
-    }
-    public Vector2[,] MapPos
-    {
-        get
-        {
-            return positionsWorld;
-        }set
-        {
-            Debug.LogWarning("Direct interference with position grid at object Map. This is not recommended!");
-            positionsWorld = value;
-        }
-    }
-    public Dictionary<GameObject, Vector2> Positions
-    {
-        get
-        {
-            Debug.LogWarning("Using Positions is not recommended, because it iterates through all tiles with every call");
-            Dictionary<GameObject, Vector2> toReturn = new Dictionary<GameObject, Vector2>();
-            for (int i = 0; i < tilesGOs.GetLength(0); i++)
-                for (int j = 0; j < tilesGOs.GetLength(1); j++)
-                    toReturn.Add(tilesGOs[i, j], positionsWorld[i, j]);
-            return toReturn;
-        }
-    }
-    public int Width
-    {
-        get { return width; }
-    }
-    public int Height
-    {
-        get { return height; }
-    }
-
-    public Map(int width, int height)
-    {
-        tilesGOs = new GameObject[width, height];
-        positionsWorld = new Vector2[width, height];
-        this.width = width;
-        this.height = height;
-    }
-
-    public void ClearMap(bool removeFromScene)
-    {
-        if (removeFromScene)
-            foreach (GameObject go in tilesGOs)
-                Object.Destroy(go);
-        tilesGOs = new GameObject[tilesGOs.GetLength(0), tilesGOs.GetLength(1)];
-        positionsWorld = new Vector2[tilesGOs.GetLength(0), tilesGOs.GetLength(1)];
-    }
-    public bool AddTile(GameObject tile, Vector2 coordsGrid, Vector2 coordsWorld)
-    {
-        return ChangeTile(tile, coordsGrid, coordsWorld);
-    }
-    public bool ChangeTile(GameObject tile, Vector2 coordsGrid, Vector2 coordsWorld)
-    {
-        if (coordsGrid.x > tilesGOs.GetLength(0) || coordsGrid.y > tilesGOs.GetLength(1))
-            return false;
-        tilesGOs[(int)coordsGrid.x, (int)coordsGrid.y] = tile;
-        positionsWorld[(int)coordsGrid.x, (int)coordsGrid.y] = coordsWorld;
-        return true;
-    }
-    public Vector2 GetWorldPosOf(Vector2 gridCoords)
-    {
-        return positionsWorld[(int)gridCoords.x, (int)gridCoords.y];
-    }
-    public Vector2 GetGridPosOf(Vector2 worldPos)
-    {
-        float distance = float.MaxValue;
-        int foundX = -1;
-        int foundY = -1;
-        for (int i = 0; i < positionsWorld.GetLength(0); i++)
-            for (int j = 0; j < positionsWorld.GetLength(1); j++)
-            {
-                float distanceX = worldPos.x - positionsWorld[i, j].x;
-                float distanceY = worldPos.y - positionsWorld[i, j].y;
-                float a = distanceX * distanceX;
-                float b = distanceY * distanceY;
-                float c = Mathf.Sqrt(a + b);
-                if (c < distance)
-                {
-                    distance = c;
-                    foundX = i;
-                    foundY = j;
-                }
-            }
-        return new Vector2(foundX, foundY);
-    }
-    public GameObject GetTileAtWorld(Vector2 worldPos)
-    {
-        Vector2 gridPos = GetGridPosOf(worldPos);
-        return tilesGOs[(int)gridPos.x, (int)gridPos.y];
-    }
-    public GameObject GetTileAtGrid(Vector2 gridPos)
-    {
-        return tilesGOs[(int)gridPos.x, (int)gridPos.y];
-    }*/
-
-
 }

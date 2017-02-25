@@ -47,6 +47,9 @@ public static class PerlinNoise {
         new Vector2( 1f,-1f).normalized,
         new Vector2(-1f,-1f).normalized
     };
+
+
+
     public static float Sum(Vector2 point, GeneratorType genType)
     {
         return Sum(point, genType.frequency, genType.octaves, genType.lacunarity, genType.persistence, genType.multiplicator, genType.addition);

@@ -30,10 +30,10 @@ public class Testing : MonoBehaviour {
             Destroy(child);
         }
 
-        //referent.map = GenerateWorld();
+        referent.map = GenerateWorld();
         //SaveHandler.SaveMap(referent.map, @"D:\map_save.fur");
 
-        referent.map = SaveHandler.LoadMap(@"D:\map_save.fur");
+        //referent.map = SaveHandler.LoadMap(@"D:\map_save.fur");
 
         referent.map.PlotBase(referent.GOMapParent.transform);
         //MapPlotter.PlotBase(referent.map, referent.GOMapParent.transform);
@@ -80,7 +80,7 @@ public class Testing : MonoBehaviour {
     }
     void HandleClick(Vector2 worldPos)
     {
-        switch (keymode)
+        /*switch (keymode)
         {
             case KEYMODES.NONE:
                 break;
@@ -94,7 +94,27 @@ public class Testing : MonoBehaviour {
                 break;
             default:
                 break;
-        }
+        }*/
+
+        /*//try to select stuff
+
+        //raycast from top of the world down
+        Vector3 raycastFrom = new Vector3(worldPos.x, worldPos.y, -10);
+        Vector3 raycastTo = new Vector3(worldPos.x, worldPos.y);
+        RaycastHit raycastHit;
+        if(Physics.Raycast(raycastFrom, raycastTo, out raycastHit))
+        {
+            //raycasting found object
+            GameObject objectHit = raycastHit.transform.gameObject;
+            if(objectHit.GetComponent<Selectable>() != null)
+            {
+                //object is selectable
+
+            }
+        }*/
+
+        MapTile tile = referent.map.GetTileAtWorld(worldPos);
+        tile.selected = !tile.selected;
     }
     bool isKeyDown = false;
     void HandleKeyPress(KeyCode keyCode)
